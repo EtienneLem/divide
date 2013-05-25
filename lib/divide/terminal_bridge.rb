@@ -1,35 +1,27 @@
 class Divide::TerminalBridge
-  APP_SUPPORTED = %w(terminal iterm)
+  attr_reader :app_name
 
-  def apple_script(cmd)
+  # Class methods
+  def self.apple_script(cmd)
     cmd = cmd.join("' -e '") if cmd.is_a?(Array)
     `osascript -e '#{cmd}'`
   end
 
-  def tell_current_application(cmd)
-    %(tell app "#{current_app}" to #{cmd})
-  end
-
-  def current_app
+  def self.current_app_name
     @current_app_name ||= apple_script('tell app "System Events" to get name of the first process whose frontmost is true').strip
   end
 
-  def current_app_supported?
-    APP_SUPPORTED.include?(current_app.downcase)
+  # Instance methods
+  def initialize
+    @app_name = bridge.current_app_name
   end
 
-  def do_script(script)
-    case current_app.downcase
-    when 'terminal' then tell_current_application %(do script "#{script}" in front window)
-    when 'iterm' then tell_current_application %(tell the first terminal to tell the last session to write text "#{script}")
-    end
+  def bridge
+    @bridge ||= Divide::TerminalBridge
   end
 
-  def open_new_tab
-    case current_app.downcase
-    when 'terminal' then keystroke 'command+t'
-    when 'iterm' then tell_current_application %(tell the first terminal to launch session "Default Session")
-    end
+  def tell_current_app(cmd)
+    %(tell app "#{@app_name}" to #{cmd})
   end
 
   def open_new_tab_in_current_directory
@@ -52,14 +44,14 @@ class Divide::TerminalBridge
     end
 
     modifier = modifier_key ? " using #{modifier_key} down" : ''
-    %(tell app "System Events" to tell process "#{current_app}" to keystroke "#{key}"#{modifier})
+    %(tell app "System Events" to tell process "#{@app_name}" to keystroke "#{key}"#{modifier})
   end
 
   def exec(commands)
     scripts = commands.map { |c| do_script(c) }
     scripts_with_new_tabs = insert_between(scripts, open_new_tab_in_current_directory).flatten
 
-    apple_script(scripts_with_new_tabs)
+    bridge.apple_script(scripts_with_new_tabs)
   end
 
   def insert_between(array, insert_between)
