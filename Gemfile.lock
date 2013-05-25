@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    divide (0.0.0)
+    divide (0.0.1)
 
 GEM
   remote: http://rubygems.org/
