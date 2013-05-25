@@ -13,6 +13,8 @@ class Divide::Extractor
     splitted_procfile = @procfile_content.split(/\s/)
 
     @options.each do |option|
+      next if option.length < 2
+
       key = option[0]
       value = option[1]
 
