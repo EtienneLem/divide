@@ -3,9 +3,16 @@ require 'yaml'
 class Divide::Extractor
   def initialize(options=[])
     @procfile_content = File.read('./Procfile') rescue ''
+    @options = options
+
+    overwrite_options
+    overwrite_port
+  end
+
+  def overwrite_options
     splitted_procfile = @procfile_content.split(/\s/)
 
-    options.each do |option|
+    @options.each do |option|
       key = option[0]
       value = option[1]
 
@@ -14,6 +21,10 @@ class Divide::Extractor
 
       @procfile_content.sub!(value_to_overwrite, value)
     end
+  end
+
+  def overwrite_port
+    @procfile_content.sub!('$PORT', ENV['PORT'] || '5000')
   end
 
   def extract_processes!
