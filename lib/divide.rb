@@ -10,7 +10,13 @@ module Divide
   end
 
   def self.processes
-    extractor.extract_processes!.to_a.map { |a| a[1] }
+    no_profile unless extracted_processes = extractor.extract_processes!
+    extracted_processes.to_a.map { |a| a[1] }
+  end
+
+  def self.no_profile
+    puts "#{Dir.pwd}: There is no Procfile in this directory"
+    exit
   end
 
   def self.terminal

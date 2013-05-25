@@ -2,7 +2,7 @@ require 'yaml'
 
 class Divide::Extractor
   def initialize(options=[])
-    @procfile_content = File.read('./Procfile')
+    @procfile_content = File.read('./Procfile') rescue ''
     splitted_procfile = @procfile_content.split(/\s/)
 
     options.each do |option|
@@ -17,6 +17,7 @@ class Divide::Extractor
   end
 
   def extract_processes!
+    return nil if @procfile_content.empty?
     YAML.load(@procfile_content)
   end
 end
