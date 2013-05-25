@@ -5,7 +5,7 @@ spec = Gem::Specification.new do |s|
   s.author = 'Etienne Lemay'
   s.email = 'etienne@heliom.ca'
   s.homepage = 'https://github.com/EtienneLem/'
-  s.summary = 'Start Procfile processes in Terminal.app tabs'
+  s.summary = 'Start Procfile processes in different Terminal.app tabs'
 
   s.version = Divide::VERSION
   s.platform = Gem::Platform::RUBY
