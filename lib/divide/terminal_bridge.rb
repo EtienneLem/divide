@@ -32,6 +32,14 @@ class Divide::TerminalBridge
     end
   end
 
+  def open_new_tab_in_current_directory
+    [open_new_tab, go_to_current_directory]
+  end
+
+  def go_to_current_directory
+    do_script "cd #{Dir.pwd}"
+  end
+
   def keystroke(key)
     splits = key.split('+')
 
@@ -49,7 +57,7 @@ class Divide::TerminalBridge
 
   def exec(commands)
     scripts = commands.map { |c| do_script(c) }
-    scripts_with_new_tabs = insert_between(scripts, open_new_tab)
+    scripts_with_new_tabs = insert_between(scripts, open_new_tab_in_current_directory).flatten
 
     apple_script(scripts_with_new_tabs)
   end
