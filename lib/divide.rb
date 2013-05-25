@@ -6,6 +6,8 @@ require 'divide/terminal_bridge/iterm'
 module Divide
   def self.run(argv)
     @options = argv.each_slice(2).to_a
+
+    show_version if argv.grep(/^-v|--version$/).any?
     error(:app_not_supported) unless terminal
 
     terminal.exec(processes)
@@ -23,7 +25,15 @@ module Divide
       app_not_supported: "#{current_app_name} is not yet supported, please fill in a request https://github.com/EtienneLem/divide/issues",
     }
 
-    puts errors[type]
+    exit_with_message(errors[type])
+  end
+
+  def self.show_version
+    exit_with_message("#{self.name} #{VERSION}")
+  end
+
+  def self.exit_with_message(message)
+    puts message
     exit
   end
 
