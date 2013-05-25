@@ -1,0 +1,2 @@
+web: bundle exec rails s -c PATH_TO_CONFIG
+worker: bundle exec jobs:work
