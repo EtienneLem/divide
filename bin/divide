@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
 require 'divide'
-exit Divide.run
+exit Divide.run(ARGV)
