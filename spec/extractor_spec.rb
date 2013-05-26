@@ -16,7 +16,7 @@ describe Divide::Extractor do
   end
 
   context 'with Procfile' do
-    let(:procfile_content) { File.read fixture('Procfile') }
+    let(:procfile_content) { fixture('Procfile') }
 
     describe 'without options' do
       it 'returns a YAML of unchanged processes' do
@@ -27,7 +27,7 @@ describe Divide::Extractor do
       end
 
       context 'with $PORT in Procfile' do
-        let(:procfile_content) { File.read fixture('Procfile_with_port') }
+        let(:procfile_content) { fixture('Procfile_with_port') }
 
         it 'always overwrite $PORT with default port' do
           @extractor.extract_processes!.should == {
@@ -39,7 +39,7 @@ describe Divide::Extractor do
     end
 
     describe 'with options' do
-      let(:procfile_content) { File.read fixture('Procfile_with_flag') }
+      let(:procfile_content) { fixture('Procfile_with_flag') }
       let(:options) { [%w(-c ./config.rb)] }
 
       it 'returns a YAML overwritten processes' do
