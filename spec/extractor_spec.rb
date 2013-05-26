@@ -2,10 +2,12 @@ require 'spec_helper'
 
 describe Divide::Extractor do
   let(:procfile_content) { '' }
+  let(:env_content) { '' }
   let(:options) { [] }
 
   before do
     Divide::Extractor.any_instance.stub(:procfile_content).and_return(procfile_content)
+    Divide::Extractor.any_instance.stub(:env_content).and_return(env_content)
     @extractor = Divide::Extractor.new(options)
   end
 
@@ -42,7 +44,7 @@ describe Divide::Extractor do
       let(:procfile_content) { fixture('Procfile_with_flag') }
       let(:options) { [%w(-c ./config.rb)] }
 
-      it 'returns a YAML overwritten processes' do
+      it 'returns a YAML of overwritten processes' do
         @extractor.extract_processes!.should == {
           'web' => 'bundle exec rails s -c ./config.rb',
           'worker' => 'bundle exec jobs:work'
@@ -58,6 +60,18 @@ describe Divide::Extractor do
             'worker' => 'bundle exec jobs:work'
           }
         end
+      end
+    end
+
+    describe 'with .env file' do
+      let(:procfile_content) { fixture('Procfile_with_port') }
+      let(:env_content) { fixture('env') }
+
+      it 'returns a YAML of overwritten processes' do
+        @extractor.extract_processes!.should == {
+          'web' => 'bundle exec rails s -p 1337',
+          'worker' => 'bundle exec jobs:work'
+        }
       end
     end
   end
