@@ -3,9 +3,13 @@ module Divide
     attr_reader :app_name
 
     # Class methods
-    def self.apple_script(cmd)
-      cmd = cmd.join("' -e '") if cmd.is_a?(Array)
-      `osascript -e '#{cmd}'`
+    def self.execute(command)
+      `#{command}`
+    end
+
+    def self.apple_script(command)
+      command = command.join("' -e '") if command.is_a?(Array)
+      execute("osascript -e '#{command}'")
     end
 
     def self.current_app_name
@@ -49,6 +53,8 @@ module Divide
     end
 
     def exec(commands)
+      commands = Array(commands)
+
       scripts = commands.map { |c| do_script(c) }
       scripts_with_new_tabs = insert_between(scripts, open_new_tab_in_current_directory).flatten
 
