@@ -1,13 +1,15 @@
 require File.expand_path('../lib/divide/version', __FILE__)
 
 spec = Gem::Specification.new do |s|
-  s.name = 'divide'
-  s.author = 'Etienne Lemay'
-  s.email = 'etienne@heliom.ca'
-  s.homepage = 'https://github.com/EtienneLem/'
-  s.summary = 'Start Procfile processes in different Terminal.app tabs'
+  s.name        = 'divide'
+  s.author      = 'Etienne Lemay'
+  s.email       = 'etienne@heliom.ca'
+  s.homepage    = 'https://github.com/EtienneLem/'
+  s.license     = 'MIT'
+  s.summary     = 'Divide Procfile processes'
+  s.description = 'Start Procfile processes in different Terminal.app tabs'
 
-  s.version = Divide::VERSION
+  s.version  = Divide::VERSION
   s.platform = Gem::Platform::RUBY
 
   s.files = %w(LICENSE.md README.md Rakefile divide.gemspec)
