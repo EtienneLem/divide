@@ -7,7 +7,7 @@ spec = Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/EtienneLem/'
   s.license     = 'MIT'
   s.summary     = 'Divide Procfile processes'
-  s.description = 'Start Procfile processes in different Terminal.app tabs'
+  s.description = 'Start Procfile processes in different Terminal/iTerm tabs'
 
   s.version  = Divide::VERSION
   s.platform = Gem::Platform::RUBY
