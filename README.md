@@ -55,6 +55,9 @@ $ divide
 ```
 
 ## Changelog
+### 0.0.3
+- Fix bug when there are double quotes in Procfile
+
 ### 0.0.2
 - iTerm.app support
 - Automatically load `.env file`
