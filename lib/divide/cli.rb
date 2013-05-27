@@ -6,6 +6,8 @@ module Divide
       @options = argv.each_slice(2).to_a
 
       show_version if argv.grep(/^-v|--version$/).any?
+      show_help if argv.grep(/^-h|--help$/).any?
+
       error(:app_not_supported) unless terminal
 
       processes = extract_processes
@@ -32,6 +34,10 @@ module Divide
 
     def show_version
       exit_with_message("Divide #{VERSION}")
+    end
+
+    def show_help
+      exit_with_message("Usage: divide [options]")
     end
 
     def exit_with_message(message, code=0)
