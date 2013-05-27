@@ -9,6 +9,7 @@ module Divide
 
       overwrite_env_variables
       overwrite_options
+      escape_double_quotes
     end
 
     def procfile_content
@@ -33,6 +34,10 @@ module Divide
           procfile_content.sub!(value_to_overwrite, value)
         end
       end
+    end
+
+    def escape_double_quotes
+      procfile_content.gsub!('"', '\"')
     end
 
     def extract_processes!

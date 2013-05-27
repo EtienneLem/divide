@@ -38,6 +38,16 @@ describe Divide::Extractor do
           }
         end
       end
+
+      context 'with double quote string in Procfile' do
+        let(:procfile_content) { fixture('Procfile_with_string') }
+
+        it 'escapes double quotes' do
+          @extractor.extract_processes!.should == {
+            'guard' => 'bundle exec guard start $([ -n \"$GUARDS\" ] && echo \"-g $GUARDS\")'
+          }
+        end
+      end
     end
 
     describe 'with options' do
