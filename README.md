@@ -14,6 +14,7 @@ $ divide
 **Divide** is option-free. You may however overwrite any options of your `Procfile` processes by passing them to `divide`.
 
 ```
+# Procfile
 web: bundle exec unicorn -c ./config/unicorn.rb
 ```
 
@@ -22,10 +23,29 @@ $ divide -c ./another_folder/unicorn.rb
 # => bundle exec unicorn -c ./another_folder/unicorn.rb
 ```
 
-### Port
+### ENV
+**Divide** automatically loads `.env` file and overwrite any `$VARIABLE` of your processes.
+
+```
+# .env
+PORT=1337
+RACK_ENV=development
+```
+```
+# Procfile
+web: bundle exec unicorn -p $PORT -c ./config/unicorn.rb -E $RACK_ENV
+```
+
+```sh
+$ divide
+# => bundle exec unicorn -p 1337 -c ./config/unicorn.rb -E development
+```
+
+### $PORT
 If you don’t specify a port, **Divide** will overwrite `$PORT` with 5000.
 
 ```
+# Procfile
 web: bundle exec rails s -p $PORT
 ```
 
