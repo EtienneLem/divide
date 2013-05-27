@@ -54,6 +54,12 @@ $ divide
 # => bundle exec rails s -p 5000
 ```
 
+## Changelog
+### 0.0.2
+- iTerm.app support
+- Automatically load `.env file`
+- Open new tabs in current directory
+
 ## Contributing
 Why yes! You’re welcome to submit any [issue][] or [pull request][] as long as everything’s green when you `bundle exec rake spec`. Meanwhile, you can give these folks a tap on the back for helping out:
 
