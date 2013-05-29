@@ -21,17 +21,14 @@ module Divide
     end
 
     def overwrite_options
-      splitted_content = procfile_content.split(/\s/)
-
       @options.each do |option|
         next if option.length < 2
 
         key = option[0]
         value = option[1]
 
-        if key_index = splitted_content.index(key)
-          value_to_overwrite = splitted_content[key_index + 1]
-          procfile_content.sub!(value_to_overwrite, value)
+        procfile_content.scan(/\s?#{key}\s(\S+)/).each do |value_to_overwrite|
+          procfile_content.gsub!(value_to_overwrite[0], value)
         end
       end
     end
