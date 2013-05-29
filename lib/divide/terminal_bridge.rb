@@ -41,15 +41,19 @@ module Divide
     def keystroke(key)
       splits = key.split('+')
 
-      if splits.length > 1
-        modifier_key = splits[0]
-        key = splits[1]
+      if splits.length > 2
+        key = splits.last
+        modifier_keys = splits - [key]
+        modifier_key = "{#{modifier_keys.map { |m| "#{m} down" }.join(', ')}}"
+      elsif splits.length == 2
+        key = splits.last
+        modifier_key = "#{splits.first} down"
       else
-        modifier_key = nil
         key = splits[0]
+        modifier_key = nil
       end
 
-      modifier = modifier_key ? " using #{modifier_key} down" : ''
+      modifier = modifier_key ? " using #{modifier_key}" : ''
       %(tell app "System Events" to tell process "#{@app_name}" to keystroke "#{key}"#{modifier})
     end
 

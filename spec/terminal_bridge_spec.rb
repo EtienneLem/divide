@@ -27,6 +27,11 @@ describe Divide::TerminalBridge do
       it 'executes keystrokes with a modifier key' do
         @terminal.keystroke('command+t').should == 'tell app "System Events" to tell process "FakeApp" to keystroke "t" using command down'
       end
+
+      it 'executes keystrokes with multiple modifier keys' do
+        @terminal.keystroke('command+shift+t').should == 'tell app "System Events" to tell process "FakeApp" to keystroke "t" using {command down, shift down}'
+        @terminal.keystroke('command+shift+alt+t').should == 'tell app "System Events" to tell process "FakeApp" to keystroke "t" using {command down, shift down, alt down}'
+      end
     end
 
     context 'single command' do
