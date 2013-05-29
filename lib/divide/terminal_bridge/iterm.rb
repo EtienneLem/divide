@@ -7,7 +7,11 @@ module Divide
     end
 
     def open_new_tab
-      tell_current_app %(tell the first terminal to launch session "Default Session")
+      if @options[:tabs]
+        keystroke 'command+t'
+      else
+        keystroke 'command+d'
+      end
     end
   end
 end

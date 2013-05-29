@@ -26,14 +26,24 @@ describe Divide::CLI do
       Divide::CLI.any_instance.stub(:start_processes).and_return('')
     end
 
+    it 'extracts and validate options' do
+      Divide::CLI::OPTIONS.should == %w(--tabs)
+
+      @cli1 = Divide::CLI.new
+      @cli1.options.should == { :tabs => false }
+
+      @cli2 = Divide::CLI.new(%w(--tabs))
+      @cli2.options.should == { :tabs => true }
+    end
+
     it 'groups argv in pair' do
       @cli = Divide::CLI.new(%w(-p 1337 -c ./path/to/config))
-      @cli.options.should == [%w(-p 1337), %w(-c ./path/to/config)]
+      @cli.flags.should == [%w(-p 1337), %w(-c ./path/to/config)]
     end
 
     context 'without Procfile' do
       let(:extracted_processes) { nil }
-    
+
       it 'raises an error' do
         expect { @cli = Divide::CLI.new }.to raise_error SystemExit
         Divide::CLI.messages.should include('./fake/path: There is no Procfile in this directory')

@@ -1,9 +1,12 @@
 module Divide
   class CLI
-    attr_reader :options
+    attr_reader :options, :flags
+    OPTIONS = %w(--tabs)
 
     def initialize(argv=[])
-      @options = argv.each_slice(2).to_a
+      @options = {}
+      OPTIONS.each { |option| @options[option.sub('--', '').to_sym] = argv.include?(option) }
+      @flags = (argv - OPTIONS).each_slice(2).to_a
 
       show_version if argv.grep(/^-v|--version$/).any?
       show_help if argv.grep(/^-h|--help$/).any?
@@ -59,14 +62,14 @@ module Divide
 
     def terminal
       @terminal ||= case current_app_name.downcase
-                    when 'terminal' then TerminalBridge::Terminal.new
-                    when 'iterm' then TerminalBridge::ITerm.new
+                    when 'terminal' then TerminalBridge::Terminal.new(@options)
+                    when 'iterm' then TerminalBridge::ITerm.new(@options)
                     else nil
                     end
     end
 
     def extractor
-      @extractor ||= Extractor.new(@options)
+      @extractor ||= Extractor.new(@flags)
     end
   end
 end

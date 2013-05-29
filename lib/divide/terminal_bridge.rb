@@ -17,7 +17,8 @@ module Divide
     end
 
     # Instance methods
-    def initialize
+    def initialize(options={})
+      @options = options
       @app_name = bridge.current_app_name
     end
 

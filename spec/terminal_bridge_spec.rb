@@ -66,17 +66,29 @@ describe Divide::TerminalBridge do
     end
 
     context Divide::TerminalBridge::ITerm do
+      let(:options) { {} }
+
       before do
         @bridge.stub(:current_app_name) { 'iTerm' }
-        @terminal = Divide::TerminalBridge::ITerm.new
+        @terminal = Divide::TerminalBridge::ITerm.new(options)
       end
 
       it 'executes shell script' do
         @terminal.do_script('foozle').should == 'tell app "iTerm" to tell the first terminal to tell the last session to write text "foozle"'
       end
 
-      it 'opens new tabs' do
-        @terminal.open_new_tab.should == 'tell app "iTerm" to tell the first terminal to launch session "Default Session"'
+      context 'without options' do
+        it 'opens new split panes by default' do
+          @terminal.open_new_tab.should == 'tell app "System Events" to tell process "iTerm" to keystroke "d" using command down'
+        end
+      end
+
+      context 'with --tabs option' do
+        let(:options) { { :tabs => true } }
+
+        it 'opens new tabs' do
+          @terminal.open_new_tab.should == 'tell app "System Events" to tell process "iTerm" to keystroke "t" using command down'
+        end
       end
     end
   end
