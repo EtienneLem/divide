@@ -56,7 +56,7 @@ $ divide
 
 ## Changelog
 ### 0.1.0
-- iTerm opens new processes into split panes (see #85bc235)
+- iTerm opens new processes into split panes (see [`85bc235`](https://github.com/EtienneLem/divide/commit/85bc235257a5b62caa332203090f41333a77f9aa))
 - Make sure all the options are being replaced
 
 ### 0.0.3
