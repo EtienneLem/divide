@@ -55,6 +55,10 @@ $ divide
 ```
 
 ## Changelog
+### 0.1.0
+- iTerm opens new processes into split panes (see #85bc235)
+- Make sure all the options are being replaced
+
 ### 0.0.3
 - Fix bug when there are double quotes in Procfile
 
