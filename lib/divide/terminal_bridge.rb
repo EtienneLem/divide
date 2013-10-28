@@ -62,6 +62,7 @@ module Divide
 
       scripts = commands.map { |c| do_script(c) }
       scripts_with_new_tabs = insert_between(scripts, open_new_tab_in_current_directory).flatten
+      scripts_with_new_tabs << open_new_tab_in_current_directory
 
       bridge.apple_script(scripts_with_new_tabs)
     end
