@@ -1,4 +1,6 @@
 # Divide
+[![Gem Version](https://badge.fury.io/rb/divide.png)](http://badge.fury.io/rb/divide)
+
 Start `Procfile` processes in different Terminal/iTerm tabs.
 
 I’m well aware of [foreman][], but it starts all processes in the same tab which can be inconvenient.<br>
