@@ -57,6 +57,9 @@ $ divide
 ```
 
 ## Changelog
+### 0.1.2
+- Ignore `.env` file comments
+
 ### 0.1.1
 - Always open an empty tab after all processes are executed
 
