@@ -46,6 +46,7 @@ module Divide
       @env_variables ||= begin
         env_content.split(/\n/).inject({}) do |memo, line|
           variable, value = line.split(/=/)
+          next {} if variable == nil || variable.chars.first == '#'
           memo.merge variable => value
         end
       end
