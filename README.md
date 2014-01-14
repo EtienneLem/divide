@@ -57,6 +57,9 @@ $ divide
 ```
 
 ## Changelog
+### 0.1.3
+- Add :from option
+
 ### 0.1.2
 - Ignore `.env` file comments
 
