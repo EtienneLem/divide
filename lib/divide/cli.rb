@@ -1,12 +1,36 @@
 module Divide
   class CLI
     attr_reader :options, :flags
-    OPTIONS = %w(--tabs)
+    OPTIONS = %w(--tabs? --no-new-tab? --from)
 
     def initialize(argv=[])
       @options = {}
-      OPTIONS.each { |option| @options[option.sub('--', '').to_sym] = argv.include?(option) }
-      @flags = (argv - OPTIONS).each_slice(2).to_a
+      OPTIONS.each do |option|
+        is_boolean = option =~ /\?$/
+        option_name = option.sub('--', '')
+
+        if is_boolean
+          option.sub!(/\?$/, '')
+          option_name.sub!(/\?$/, '')
+
+          @options[option_name.to_sym] = argv.include?(option)
+          argv.delete(option)
+        elsif argv.include?(option)
+          value_index = argv.index(option) + 1
+
+          @options[option_name.to_sym] = argv[value_index]
+          argv.delete_at(value_index)
+          argv.delete(option)
+        end
+      end
+
+      if from = @options[:from]
+        @options[:from] = "#{Dir.pwd}/#{from}"
+      else
+        @options[:from] = Dir.pwd
+      end
+
+      @flags = (argv).each_slice(2).to_a
 
       show_version if argv.grep(/^-v|--version$/).any?
       show_help if argv.grep(/^-h|--help$/).any?
@@ -69,7 +93,7 @@ module Divide
     end
 
     def extractor
-      @extractor ||= Extractor.new(@flags)
+      @extractor ||= Extractor.new(@flags, @options)
     end
   end
 end

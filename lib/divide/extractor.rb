@@ -4,24 +4,25 @@ module Divide
   class Extractor
     DEFAULT_ENV = { 'PORT' => '5000' }.merge(ENV)
 
-    def initialize(options=[])
+    def initialize(flags = [], options = {})
+      @flags = flags
       @options = options
 
       overwrite_env_variables
-      overwrite_options
+      overwrite_flags
       escape_double_quotes
     end
 
     def procfile_content
-      @procfile_content ||= File.read('./Procfile') rescue ''
+      @procfile_content ||= File.read("#{@options[:from]}/Procfile") rescue ''
     end
 
     def env_content
-      @env_content ||= File.read('./.env') rescue ''
+      @env_content ||= File.read("#{@options[:from]}/.env") rescue ''
     end
 
-    def overwrite_options
-      @options.each do |option|
+    def overwrite_flags
+      @flags.each do |option|
         next if option.length < 2
 
         key = option[0]

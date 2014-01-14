@@ -3,4 +3,4 @@
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
 require 'divide'
-Divide::CLI.new(ARGV)
+Divide::CLI.new(ARGV.dup)

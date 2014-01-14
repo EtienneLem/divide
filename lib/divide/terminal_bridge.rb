@@ -35,7 +35,7 @@ module Divide
     end
 
     def go_to_current_directory
-      do_script "cd #{Dir.pwd}"
+      do_script "cd #{@options[:from]}"
     end
 
     def keystroke(key)
@@ -62,7 +62,8 @@ module Divide
 
       scripts = commands.map { |c| do_script(c) }
       scripts_with_new_tabs = insert_between(scripts, open_new_tab_in_current_directory).flatten
-      scripts_with_new_tabs << open_new_tab_in_current_directory
+      scripts_with_new_tabs.unshift(open_new_tab_in_current_directory) unless @options[:from] == Dir.pwd
+      scripts_with_new_tabs.push(open_new_tab_in_current_directory) unless @options[:'no-new-tab']
 
       bridge.apple_script(scripts_with_new_tabs)
     end
